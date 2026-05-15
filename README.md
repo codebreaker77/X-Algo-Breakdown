@@ -1,6 +1,6 @@
 <div align="center">
   <h1>X Algorithm Breakdown</h1>
-  <p><strong>Deep Technical Analysis of the X "For You" Feed</strong></p>
+  <p><strong>A Deep-Dive Technical Analysis of the May 2026 X "For You" Recommendation Engine</strong></p>
 
   <p>
     <a href="https://github.com/codebreaker77/X-Algo-Breakdown/stargazers"><img src="https://img.shields.io/github/stars/codebreaker77/X-Algo-Breakdown?style=for-the-badge&color=2b2b2b" alt="Stars" /></a>
@@ -13,123 +13,78 @@
 
 ---
 
-## What Is This?
+## Executive Summary
 
-This repository is an **in-depth, source-code-level breakdown** of X's "For You" feed recommendation algorithm released on May 15, 2026. The original codebase spans **207 files** across Rust and Python, implementing a full production recommendation pipeline from candidate retrieval through feed assembly.
+This repository provides an **in-depth, source-code-level architectural breakdown** of the X "For You" recommendation algorithm, based on the codebase released on May 15, 2026. 
 
-This is NOT a surface-level summary. Every chapter traces through real function signatures, actual data flow, scoring weights, and architectural decisions directly from the source code.
+Unlike previous iterations that relied heavily on heuristic, rule-based systems, this release reveals a fundamentally modernized architecture. The system now leverages the **Grok-1 transformer** for 19-dimensional engagement prediction, a sub-millisecond in-memory post store (**Thunder**), and a distributed async Python daemon (**Grox**) for real-time, LLM-powered content moderation and multimodal embedding extraction.
 
----
-
-## Table of Contents
-
-| Chapter | Description |
-|---------|-------------|
-| [01: Architecture Overview](./01-architecture-overview.md) | End-to-end system map, the 4 layers, data flow diagram |
-| [02: Phoenix ML Brain](./02-phoenix-ml-engine.md) | Two-tower retrieval, transformer ranker, candidate isolation, hash embeddings |
-| [03: Candidate Pipeline](./03-candidate-pipeline.md) | Hydrators, scorers, filters, selectors within the Rust trait-object architecture |
-| [04: Home Mixer](./04-home-mixer.md) | gRPC server, 28+ service clients, feature switches, ads blending, URT format |
-| [05: Thunder](./05-thunder.md) | Kafka ingestion, in-memory store, sub-millisecond lookups, recency scoring |
-| [06: Scoring & Ranking](./06-scoring-and-ranking.md) | Weighted scorer formula, 19 engagement actions, author diversity, OON factor |
-| [07: Grox AI Engine](./07-grox-ai-engine.md) | Engine/Dispatcher multiprocess architecture, Kafka streams, multimodal embeddings |
-| [08: Safety & Moderation](./08-safety-and-moderation.md) | PTOS classifier, policy violation detection, spam, banger quality, reply ranking |
-| [09: What's New (May 2026)](./09-whats-new-may-2026.md) | Every new feature in this release versus the original 2023 algorithm |
-| [10: Key Design Patterns](./10-design-patterns.md) | Enable-gating, hash embeddings, bloom filter dedup, LLM-as-classifier |
+This documentation serves as a comprehensive guide for systems engineers, ML researchers, and product builders aiming to understand how one of the world's largest recommendation feeds is engineered at scale.
 
 ---
 
-## Cheat Sheets & Playbooks
+## Core System Architecture
 
-Derived strictly from mathematical multipliers and LLM scoring logic in the source code.
+The recommendation engine is orchestrated across four primary subsystems:
 
-| Playbook | Description |
-|----------|-------------|
-| [The "Going Viral" Cheat Sheet](./cheat_sheet/going-viral-guide.md) | Actionable advice derived directly from the ranking code |
-| [Video Reach Optimization Playbook](./cheat_sheet/video-reach-playbook.md) | Maximizing VQV weights and subtitle embeddings |
-| [Safety & Shadowban Survival Guide](./cheat_sheet/safety-shadowban-guide.md) | Avoiding PTOS policy flags, slop scores, and spam filters |
-| [Reply Ranking Playbook](./cheat_sheet/reply-ranking-playbook.md) | Mastering the VLM reply scorer for conversation dominance |
-| [Network Reach Playbook](./cheat_sheet/network-reach-playbook.md) | Understanding the OON penalty and Thunder in-network advantage |
-| [Banger & Quality Scoring Playbook](./cheat_sheet/banger-quality-playbook.md) | Crossing the 0.4 quality threshold for viral distribution |
+1. **Phoenix ML Engine:** A two-tower retrieval and transformer-based ranking system. It utilizes a novel "candidate isolation" attention mask to independently evaluate posts against a user's historical interaction sequence.
+2. **The Rust Candidate Pipeline:** A highly concurrent, trait-object-driven pipeline that dynamically hydrates, scores, and filters candidates at runtime.
+3. **Home Mixer (gRPC):** The central nervous system of the feed. It manages feature flags, coordinates over 28 external service clients, blends organic posts with advertisements via the SafeGap blender, and serves the final URT payload.
+4. **Grox AI Daemon:** A Kafka-driven, multi-process Python engine that continuously processes incoming posts, running Vision-Language Models (VLMs) to detect policy violations, assign quality scores, and extract text/video embeddings.
 
 ---
 
-## Codebase Stats
+## Technical Chapters
 
-| Metric | Value |
-|--------|-------|
-| Total Files | 207 |
-| Rust Files | 139 |
-| Python Files | 68 |
-| Knowledge Graph Nodes | 1,418 |
-| Knowledge Graph Edges | 5,365 |
-| Engagement Action Types | 19 |
-| External Service Clients | 28+ |
-| Content Classifiers | 6 |
-| Filter Stages | 18 |
-| Candidate Sources | 12 |
+The breakdown is structured into 10 detailed chapters, tracing the execution path directly through the original Rust and Python source code.
 
----
-
-## Quick Architecture
-
-```text
-User Request
-     |
-     v
-+-------------------------------------------------------------+
-|  1. PHOENIX RETRIEVAL (Two-Tower ANN search)                |
-|     Millions of posts -> Top ~1000 candidates               |
-+------------------------------+------------------------------+
-                               |
-                               v
-+-------------------------------------------------------------+
-|  2. PHOENIX RANKING (Grok-1 Transformer)                    |
-|     Predicts P(like), P(reply), P(repost)... 19 actions     |
-+------------------------------+------------------------------+
-                               |
-                               v
-+-------------------------------------------------------------+
-|  3. CANDIDATE PIPELINE (Rust - hydrate -> score -> filter)  |
-|     Feature enrichment, weighted scoring, diversity         |
-+------------------------------+------------------------------+
-                               |
-                               v
-+-------------------------------------------------------------+
-|  4. HOME MIXER (Rust - blend organic + ads, serve)          |
-|     Final feed assembly -> gRPC response                    |
-+-------------------------------------------------------------+
-
-       v Meanwhile, running continuously in background v
-
-+-------------------------------------------------------------+
-|  GROX (Python - real-time AI classifiers & embedders)       |
-|  Safety labels, quality scores, multimodal embeddings       |
-+-------------------------------------------------------------+
-```
+| Section | Analysis Link | Core Concepts Covered |
+|---------|---------------|-----------------------|
+| **01** | [Architecture Overview](./01-architecture-overview.md) | End-to-end request lifecycle, microservice topography, and data flow. |
+| **02** | [Phoenix ML Brain](./02-phoenix-ml-engine.md) | Two-tower retrieval, transformer ranking, and multi-hash embeddings. |
+| **03** | [Candidate Pipeline](./03-candidate-pipeline.md) | Dynamic trait-object orchestration (Hydrators, Filters, Scorers). |
+| **04** | [Home Mixer Orchestration](./04-home-mixer.md) | gRPC serving, feature-flag targeting, and the SafeGap ad-blending algorithm. |
+| **05** | [Thunder Post Store](./05-thunder.md) | Sub-millisecond in-memory storage, Kafka ingestion, and back-pressure. |
+| **06** | [Scoring & Ranking Math](./06-scoring-and-ranking.md) | The 19-dimensional weighted formula, author diversity decay, and OON penalties. |
+| **07** | [Grox AI Engine](./07-grox-ai-engine.md) | Multiprocess event loops, `asyncio` dispatcher, and multimodal frame extraction. |
+| **08** | [Safety & Content Moderation](./08-safety-and-moderation.md) | LLM-based policy classifiers, "Deluxe" reasoning modes, and reply quality ranking. |
+| **09** | [What's New (May 2026)](./09-whats-new-may-2026.md) | Architectural diffs and deprecations compared to the 2023 algorithm release. |
+| **10** | [Key Design Patterns](./10-design-patterns.md) | Systems engineering patterns: bloom filters, multi-region caching, and enable-gating. |
 
 ---
 
-## The Single Most Important Thing
+## Algorithmic Playbooks
 
-**X eliminated all hand-engineered features.** The Grok-1 transformer does everything. There are no manual content relevance features and no heuristic scoring rules. Your engagement history (likes, replies, shares, dwell time) is the input; the transformer learns what is relevant to you.
+Derived strictly from the source code's mathematical multipliers and LLM classifier prompts, these playbooks translate the backend architecture into actionable strategies for content optimization.
 
-The weighted scoring formula:
-
-```text
-Final Score = SUM (weight_i * P(action_i))
-```
-
-Positive actions (like, share, repost) contribute positively and negative actions (block, mute, report) pull the score down. The exact weights are tunable via feature switches for experiments and testing.
-
----
-
-## Support the Project
-
-If you found this deep dive useful and it helped you understand modern recommendation systems, consider supporting my work! It takes dozens of hours to read through hundreds of raw source code files and synthesize them into clean architectural documentation.
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U31YJNBN)
+| Playbook | Tactical Focus |
+|----------|----------------|
+| [The Core Growth Guide](./cheat_sheet/going-viral-guide.md) | Exploiting the 19 engagement multipliers and navigating the exponential diversity penalty. |
+| [Video Reach Optimization](./cheat_sheet/video-reach-playbook.md) | Passing the `MIN_VIDEO_DURATION_MS` check and optimizing subtitles for VLM extraction. |
+| [Safety & Visibility Filtering](./cheat_sheet/safety-shadowban-guide.md) | Bypassing the 7 PTOS safety flags and avoiding the algorithmic `slop_score`. |
+| [Reply Ranking Mastery](./cheat_sheet/reply-ranking-playbook.md) | Dominating conversation threads using the `ReplyScorer` VLM logic. |
+| [Network Reach Strategy](./cheat_sheet/network-reach-playbook.md) | Leveraging Thunder's recency sort to overcome the Out-of-Network (`OON_WEIGHT_FACTOR`) penalty. |
+| [Banger Quality Scoring](./cheat_sheet/banger-quality-playbook.md) | Clearing the `0.4` VLM quality threshold for priority algorithmic distribution. |
 
 ---
 
-## License
+## Codebase Statistics
 
-This analysis is provided for educational and research purposes. The original X algorithm code is licensed under Apache License 2.0.
+| Component | Metric |
+|-----------|--------|
+| **Total Source Files** | 207 (139 Rust, 68 Python) |
+| **Microservice Clients** | 28+ Integrated External Services |
+| **Engagement Vectors** | 19 Distinct Predictive Action Weights |
+| **Candidate Sources** | 12 Routing Paths (In-Network, Topics, MoE, Ads, etc.) |
+| **Filter Stages** | 18 Specialized Post-Retrieval Filters |
+| **AI Classifiers** | 6 Continuous Grox VLM/EAPI Classifiers |
+
+---
+
+## Support & Attribution
+
+This documentation requires extensive source code analysis and system mapping. If you found this breakdown valuable for your research or engineering work, consider supporting the repository.
+
+<a href="https://ko-fi.com/U7U31YJNBN"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi" /></a>
+
+**License:** This analytical documentation is provided for educational and research purposes. The original X algorithm source code is licensed under the Apache License 2.0.
