@@ -1,5 +1,4 @@
 <div align="center">
-  <img src="assets/logo.png" width="120" alt="X Algo Breakdown Logo" />
   <h1>X Algorithm Breakdown</h1>
   <p><strong>Deep Technical Analysis of the X "For You" Feed</strong></p>
 
