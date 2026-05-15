@@ -7,7 +7,7 @@
     <a href="https://github.com/codebreaker77/X-Algo-Breakdown/network/members"><img src="https://img.shields.io/github/forks/codebreaker77/X-Algo-Breakdown?style=for-the-badge&color=2b2b2b" alt="Forks" /></a>
     <a href="https://github.com/codebreaker77/X-Algo-Breakdown/blob/master/LICENSE"><img src="https://img.shields.io/github/license/codebreaker77/X-Algo-Breakdown?style=for-the-badge&color=2b2b2b" alt="License" /></a>
     <br/>
-    <a href="https://ko-fi.com/codebreaker77"><img src="https://img.shields.io/badge/Support_via_Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Support via Ko-Fi" /></a>
+    [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U31YJNBN)
   </p>
 </div>
 
@@ -126,8 +126,7 @@ Positive actions (like, share, repost) contribute positively and negative action
 ## Support the Project
 
 If you found this deep dive useful and it helped you understand modern recommendation systems, consider supporting my work! It takes dozens of hours to read through hundreds of raw source code files and synthesize them into clean architectural documentation.
-
-<a href="https://ko-fi.com/codebreaker77">Buy me a coffee on Ko-Fi</a>
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U31YJNBN)
 
 ---
 
