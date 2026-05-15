@@ -28,6 +28,11 @@ This is NOT a surface-level summary. Every chapter traces through real function 
 | 9 | [What's New — May 2026 Release](./09-whats-new-may-2026.md) | Every new feature in this release vs the original 2023 algorithm |
 | 10 | [Key Design Patterns](./10-design-patterns.md) | Enable-gating, hash embeddings, bloom filter dedup, LLM-as-classifier |
 | 11 | [The "Going Viral" Cheat Sheet](./cheat_sheet/going-viral-guide.md) | Actionable advice derived directly from the source code |
+| 12 | [Video Reach Optimization Playbook](./cheat_sheet/video-reach-playbook.md) | Maximizing VQV weights and subtitle embeddings |
+| 13 | [Safety & Shadowban Survival Guide](./cheat_sheet/safety-shadowban-guide.md) | Avoiding PTOS policy flags, slop scores, and spam filters |
+| 14 | [Reply Ranking Playbook](./cheat_sheet/reply-ranking-playbook.md) | Mastering the VLM reply scorer for conversation dominance |
+| 15 | [Network Reach Playbook](./cheat_sheet/network-reach-playbook.md) | Understanding the OON penalty and Thunder in-network advantage |
+| 16 | [Banger & Quality Scoring Playbook](./cheat_sheet/banger-quality-playbook.md) | Crossing the 0.4 quality threshold for viral distribution |
 
 ---
 
@@ -77,7 +82,7 @@ User Request
 │     Final feed assembly → gRPC response                    │
 └─────────────────────────────────────────────────────────────┘
 
-       ⬇️ Meanwhile, running continuously in background ⬇️
+       v Meanwhile, running continuously in background v
 
 ┌─────────────────────────────────────────────────────────────┐
 │  GROX (Python — real-time AI classifiers & embedders)      │
