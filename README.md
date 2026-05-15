@@ -6,8 +6,8 @@
     <a href="https://github.com/codebreaker77/X-Algo-Breakdown/stargazers"><img src="https://img.shields.io/github/stars/codebreaker77/X-Algo-Breakdown?style=for-the-badge&color=2b2b2b" alt="Stars" /></a>
     <a href="https://github.com/codebreaker77/X-Algo-Breakdown/network/members"><img src="https://img.shields.io/github/forks/codebreaker77/X-Algo-Breakdown?style=for-the-badge&color=2b2b2b" alt="Forks" /></a>
     <a href="https://github.com/codebreaker77/X-Algo-Breakdown/blob/master/LICENSE"><img src="https://img.shields.io/github/license/codebreaker77/X-Algo-Breakdown?style=for-the-badge&color=2b2b2b" alt="License" /></a>
-    <br/>
-    [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U31YJNBN)
+    <br/><br/>
+    <a href="https://ko-fi.com/U7U31YJNBN"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi" /></a>
   </p>
 </div>
 
