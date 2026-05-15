@@ -13,7 +13,7 @@ This is NOT a surface-level summary. Every chapter traces through real function 
 
 ---
 
-## 🗂️ Table of Contents
+## Table of Contents
 
 | # | Chapter | What You'll Learn |
 |---|---------|-------------------|
@@ -27,10 +27,11 @@ This is NOT a surface-level summary. Every chapter traces through real function 
 | 8 | [Safety & Content Moderation](./08-safety-and-moderation.md) | PTOS classifier, policy violation detection, spam, banger quality, reply ranking |
 | 9 | [What's New — May 2026 Release](./09-whats-new-may-2026.md) | Every new feature in this release vs the original 2023 algorithm |
 | 10 | [Key Design Patterns](./10-design-patterns.md) | Enable-gating, hash embeddings, bloom filter dedup, LLM-as-classifier |
+| 11 | [The "Going Viral" Cheat Sheet](./cheat_sheet/going-viral-guide.md) | Actionable advice derived directly from the source code |
 
 ---
 
-## 🏗️ Codebase Stats
+## Codebase Stats
 
 | Metric | Value |
 |--------|-------|
@@ -86,7 +87,7 @@ User Request
 
 ---
 
-## 🔑 The Single Most Important Thing
+## The Single Most Important Thing
 
 **X eliminated all hand-engineered features.** The Grok-1 transformer does everything — no manual content relevance features, no heuristic scoring rules. Your engagement history (likes, replies, shares, dwell time) is the input; the transformer learns what's relevant to you.
 
