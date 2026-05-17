@@ -50,6 +50,10 @@ The breakdown is structured into 10 detailed chapters, tracing the execution pat
 | **08** | [Safety & Content Moderation](./08-safety-and-moderation.md) | LLM-based policy classifiers, "Deluxe" reasoning modes, and reply quality ranking. |
 | **09** | [What's New (May 2026)](./09-whats-new-may-2026.md) | Architectural diffs and deprecations compared to the 2023 algorithm release. |
 | **10** | [Key Design Patterns](./10-design-patterns.md) | Systems engineering patterns: bloom filters, multi-region caching, and enable-gating. |
+| **11** | [The Topic Affinity Matrix](./11-topic-affinity-matrix.md) | Expansion algorithms, `TopicIdsFilter`, and bulk topic exclusion. |
+| **12** | [Telemetry & Side Effects](./12-telemetry-side-effects.md) | Tokio-spawned caching, `ServedHistory` tracking, and Kafka logging. |
+| **13** | [Grox Execution DAGs](./13-grox-execution-dags.md) | Multi-task directed acyclic graphs and async ML topological sorting. |
+| **14** | [Phoenix JAX/Haiku Inference](./14-phoenix-inference.md) | DeepMind `hk.transform` wrapping and multi-hash embeddings. |
 
 ---
 
